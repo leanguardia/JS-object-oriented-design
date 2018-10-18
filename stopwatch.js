@@ -2,15 +2,18 @@ function Stopwatch() {
 
     this.duration = 0;
     let isRunning = false;
+    let startTime, stopTime;
 
     this.start = ()=> {
         if (isRunning) { throwError('Stopwatch has already started.'); }
-        this.duration = 1;
+        startTime = actualTime();
         isRunning = true;
     };
 
     this.stop = ()=> {
         if (!isRunning) { throwError('Stopwatch is not started.'); }
+        stopTime = actualTime();
+        calculateDuration();
         isRunning = false;
     };
 
@@ -19,6 +22,10 @@ function Stopwatch() {
     };
 
     const throwError = (message)=> { throw new Error(message); }
+    const actualTime = ()=> { return (new Date()).getTime(); }
+    const calculateDuration = ()=> {
+         this.duration += ((stopTime - startTime) / 1000);
+    };
 };
 
 module.exports = Stopwatch;

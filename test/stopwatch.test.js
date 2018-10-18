@@ -12,19 +12,32 @@ describe('Stopwatch', () => {
         assert.equal(sw.duration, 0);
     });
 
-    it('begins a counter after it starts', ()=> {
-        sw.start();
-        assert.notEqual(sw.duration, 0);
-    });
-
     it('throws an error when trying to start it twice', ()=> {
         sw.start();
         assert.throws(sw.start, 'Stopwatch has already started.');
     });
 
-    it('still shows duration time after is stops', ()=> {
-        sw.start(); sw.stop();
-        assert.notEqual(sw.duration, 0);
+    it('still shows duration time after it stops', function(done) {
+        sw.start();
+        setTimeout( function() {
+            sw.stop();
+            assert.notEqual(sw.duration, 0); done();
+        }, 1);
+    });
+
+    it('increments duration after starting again', function(done) {
+        sw.start();
+        setTimeout( function() {
+            sw.stop();
+            let firstLap = sw.duration;
+            sw.start();
+            setTimeout( function() {
+                sw.stop();
+                // console.log(firstLap, sw.duration);
+                assert.isAbove(sw.duration, firstLap);
+                done();
+            },1);
+        }, 1);
     });
 
     it('resets the duration counter after restarting', ()=> {
