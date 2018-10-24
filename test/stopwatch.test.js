@@ -1,5 +1,5 @@
 const assert = require('chai').assert;
-const Stopwatch = require('../stopwatch');
+const Stopwatch = require('../lib/stopwatch');
 
 describe('Stopwatch', () => {
     let sw;
